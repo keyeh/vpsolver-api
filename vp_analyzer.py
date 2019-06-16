@@ -1,3 +1,4 @@
+import sys
 from collections import Counter
 from itertools import combinations_with_replacement, product
 from scipy.misc import comb
@@ -935,4 +936,4 @@ class DiscardValue(object):
         return kick_cnt
 
 if __name__ == '__main__':
-    print(HandAnalyzer('qd9c8d5c2c').analyze(return_full_analysis=False, return_bestdisc_cnts = True))
+    print(HandAnalyzer(sys.argv[1]).analyze(return_full_analysis=False, return_bestdisc_cnts = True))
