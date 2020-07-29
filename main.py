@@ -21,6 +21,7 @@ def vpsolver(request):
     else:
         return 400
     
+    cards = convertHandStringFormat(cards)
     analysis = HandAnalyzer(cards).analyze(return_full_analysis=False, return_bestdisc_cnts = False)
     return {"hand": analysis[0], "expected_value":analysis[1]}
 
