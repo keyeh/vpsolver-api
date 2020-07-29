@@ -19,5 +19,13 @@ def vpsolver(request):
     elif request_args and 'cards' in request_args:
         cards = request_args['cards']
     else:
-        cards = 'World'
-    return HandAnalyzer(cards).analyze(return_full_analysis=False, return_bestdisc_cnts = True)
+        return 400
+    
+    analysis = HandAnalyzer(cards).analyze(return_full_analysis=False, return_bestdisc_cnts = False)
+    return {"hand": analysis[0], "expected_value":analysis[1]}
+
+
+def convertHandStringFormat(handStr):
+    n = 2
+    a = [handStr[i:i+n][::-1] for i in range(0, len(handStr), n)]
+    return ''.join(a).upper()
