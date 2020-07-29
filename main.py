@@ -20,4 +20,4 @@ def vpsolver(request):
         cards = request_args['cards']
     else:
         cards = 'World'
-    return HandAnalyzer(cards)
+    return HandAnalyzer(cards).analyze(return_full_analysis=True, return_bestdisc_cnts = True)

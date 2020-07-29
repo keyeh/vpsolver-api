@@ -1,7 +1,7 @@
 import sys
 from collections import Counter
 from itertools import combinations_with_replacement, product
-from scipy.misc import comb
+from scipy.special import comb
 
 # GLOBALS
 RANKS = 'A23456789TJQK'
