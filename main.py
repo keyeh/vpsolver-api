@@ -1,7 +1,7 @@
 from flask import escape
 from vp_analyzer import HandAnalyzer, DiscardValue
 
-def hello_http(request):
+def vpsolver(request):
     """HTTP Cloud Function.
     Args:
         request (flask.Request): The request object.
