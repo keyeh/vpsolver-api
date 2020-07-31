@@ -85,9 +85,10 @@ def save_chunks(hands_lst, filename_base, payouts = None, chunksize = 100000,
         mapfunc = partial(analyze_hand, **kwargs)
 
     for ind in range(0, len(hands_lst), chunksize):
-        # if path.exists(fname + '.hex'):
-        #     print('Already done, skipping: {}'.format(fname))
-        #     continue
+        fname = filename_base + str(ind)
+        if path.exists(fname + '.hex'):
+            print('Already done, skipping: {}'.format(fname))
+            continue
 
         pool = multiprocessing.Pool(processes = procs)
         if ind+chunksize <= len(hands_lst):
@@ -95,7 +96,6 @@ def save_chunks(hands_lst, filename_base, payouts = None, chunksize = 100000,
         else:
             hands_analysis = pool.map(mapfunc, hands_lst[ind:])
         
-        fname = filename_base + str(ind)
         if return_bestdisc_cnts:
             with open(fname + '.json', 'w') as fout:
                 json.dump(hands_analysis, fout)
