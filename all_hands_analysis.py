@@ -26,14 +26,23 @@ def hand2str(hand_tup):
         hstr += r + s
     return hstr
 
-def analyze_hand(handstr, payouts = None, return_bestdisc_cnts = True):
+def handResultToByte(handStr):
+    n = 2
+    a = [handStr[i:i+n][::-1] for i in range(0, len(handStr), n)]
+    s = '000' + ''.join('0' if i == "XX" else '1' for i in a)
+    i = int(s, 2)
+    return i
+
+def analyze_hand(handstr, payouts = None, return_bestdisc_cnts = False):
     hand = HandAnalyzer(handstr, payouts=payouts)
     results = hand.analyze(return_full_analysis=False,
                            return_bestdisc_cnts = return_bestdisc_cnts)
     if return_bestdisc_cnts:
         return {handstr: results}
     else:
-        return '{},{},{}'.format(handstr, *results)
+        # Return byte
+        return(handResultToByte(results[0]))
+        # return '{},{},{}'.format(handstr, *results)
 
 
 def save_chunks(hands_lst, filename_base, payouts = None, chunksize = 100000,
@@ -87,10 +96,12 @@ def save_chunks(hands_lst, filename_base, payouts = None, chunksize = 100000,
             with open(fname + '.json', 'w') as fout:
                 json.dump(hands_analysis, fout)
         else:
-            with open(fname + '.txt', 'w') as fout:
+            with open(fname + '.hex', 'w') as fout:
                 # write results on separate lines, include \n on last line
-                fout.write('\n'.join(hands_analysis)+'\n')
+                print(hands_analysis)
+                fout.write(bytearray(hands_analysis))
         print('Saved: {}'.format(fname))
+        print(time.localtime())
 
 
 def flatten_bestdisc_json_chunks2df(json_chunks):
@@ -135,7 +146,13 @@ if __name__ == '__main__':
                     'four_kind': 50, 'four_kind234':120, 'four_kindA':240,
                     'straight_flush': 100, 'royal_flush': 800}
 
-    indout = save_chunks(all_hands_str_l, 'poker_hands_win_cnts_triplebonusplus_',
-                         payouts = tripbonusplus_d, chunksize = 200000,
-                         return_bestdisc_cnts = True)
+    # indout = save_chunks(all_hands_str_l, 'poker_hands_win_cnts_triplebonusplus_',
+    #                      payouts = tripbonusplus_d, chunksize = 2500,
+    #                      return_bestdisc_cnts = False)
+
+    
+    # Jacks or Better 
+    indout = save_chunks(all_hands_str_l, 'jacks-or-better-9-6_',
+                         payouts = None, chunksize = 49980,
+                         return_bestdisc_cnts = False)
     print(time.localtime())
