@@ -4,6 +4,7 @@ import json
 from vp_analyzer import HandAnalyzer
 import time
 import multiprocessing
+from os import path
 
 """
 Script to generate a series of files that together contain all ~2.6M five-card
@@ -84,21 +85,22 @@ def save_chunks(hands_lst, filename_base, payouts = None, chunksize = 100000,
         mapfunc = partial(analyze_hand, **kwargs)
 
     for ind in range(0, len(hands_lst), chunksize):
+        # if path.exists(fname + '.hex'):
+        #     print('Already done, skipping: {}'.format(fname))
+        #     continue
 
         pool = multiprocessing.Pool(processes = procs)
         if ind+chunksize <= len(hands_lst):
             hands_analysis = pool.map(mapfunc, hands_lst[ind:ind+chunksize])
         else:
             hands_analysis = pool.map(mapfunc, hands_lst[ind:])
-
+        
         fname = filename_base + str(ind)
         if return_bestdisc_cnts:
             with open(fname + '.json', 'w') as fout:
                 json.dump(hands_analysis, fout)
         else:
             with open(fname + '.hex', 'w') as fout:
-                # write results on separate lines, include \n on last line
-                print(hands_analysis)
                 fout.write(bytearray(hands_analysis))
         print('Saved: {}'.format(fname))
         print(time.localtime())
