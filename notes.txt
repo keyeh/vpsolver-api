@@ -1,0 +1,75 @@
+A123456789TJQK = 14
+h s d c = 4
+
+14*4 = 56 bits to represent a deck
+56 bits hand mask
+
+56 bits hand mask + 56 bits hold mask = 112 bits per line
+
+2,598,960 * 112 bits = 36.38544 megabytes
+
+56 bits hand mask + 5 bits hold mask = 61 bits per line
+
+2,598,960 * 61 bits = 19.81707 MB
+
+implied hand based on index and sorted hand
+2,598,960 * 5 bit hold mask = 1.62435 megabytes
+
+2,598,960 * 8 bit hold mask = 2.59896 megabytes
+
+
+8 bit card number * 5 = 40 bits per hand
+40 bits per hand +  line number =
+
+
+
+
+
+
+# chunkSize = 49980
+# How many are the same?
+
+# first card same = 49980
+# and second same = 19600
+# and third same = 1176
+# and fourth = 48 (52-4)
+
+
+
+ranks = 'A23456789TJQK'
+suits = 'cdhs'
+
+Given: Ad 3h 8d 8s 9c
+Find: 377181
+
+first:
+Ad must be after Ac, so:
+begin at 49980
+
+3h is after:
+3d (11480)
+3c, (12341)
+2s, (13244)
+2h, (14190)
+2d, (15180)
+2c, (16215)
+As, (17296)
+Ah, (18424)
+Kc (1)
+Qs (4)
+Qh (10)
+Qd (20)
+Qc (35)
+Js 56
+Jh (84)
+Jc (165)
+Ts 220
+Th 286
+Td 364
+Tc 455
+9s 560
+9h 680
+9d 816
+9c 969
+8s 1140
+8h
