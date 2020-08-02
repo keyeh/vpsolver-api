@@ -15,6 +15,7 @@ def handStringToIntArray(handStr):
     n = 2
     a = [handStr[i:i+n] for i in range(0, len(handStr), n)]
     a = map(cardToNumber, a)
+    a.sort()
     return a
 
 def intArrayToHand(ints):
@@ -51,6 +52,7 @@ if __name__ == '__main__':
 
     result = find_idx(handIntArray, 53)
     print(result)
+    print(list(all_hands_gen())[result])
 
     lutBytes = []
     with open("job-9-6.bin", "rb") as f:
@@ -62,3 +64,4 @@ if __name__ == '__main__':
     
     byte = lutBytes[result]
     print(makeStringFromByte(byte))
+
