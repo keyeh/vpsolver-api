@@ -85,7 +85,7 @@ def save_chunks(hands_lst, filename_base, payouts = None, chunksize = 100000,
         mapfunc = partial(analyze_hand, **kwargs)
 
     for ind in range(0, len(hands_lst), chunksize):
-        fname = filename_base + str(ind)
+        fname = filename_base + str(ind).zfill(10)
         if path.exists(fname + '.hex'):
             print('Already done, skipping: {}'.format(fname))
             continue
@@ -154,7 +154,23 @@ if __name__ == '__main__':
 
     
     # Jacks or Better 
-    indout = save_chunks(all_hands_str_l, 'jacks-or-better-9-6_',
-                         payouts = None, chunksize = 49980,
+
+    jacks_or_better_eight_five = {'pair_jqka': 1, 'two_pair': 2, 'three_kind': 3,
+                'straight': 4, 'flush': 5, 'full_house': 8,
+                'four_kind': 25, 'straight_flush': 50,
+                'royal_flush': 800}
+
+    jacks_or_better_eight_six = {'pair_jqka': 1, 'two_pair': 2, 'three_kind': 3,
+                'straight': 4, 'flush': 6, 'full_house': 8,
+                'four_kind': 25, 'straight_flush': 50,
+                'royal_flush': 800}
+
+    jacks_or_better_nine_five = {'pair_jqka': 1, 'two_pair': 2, 'three_kind': 3,
+                'straight': 4, 'flush': 5, 'full_house': 9,
+                'four_kind': 25, 'straight_flush': 50,
+                'royal_flush': 800}
+
+    indout = save_chunks(all_hands_str_l, 'jacks-or-better-8-6_',
+                         payouts = jacks_or_better_eight_six, chunksize = 49980,
                          return_bestdisc_cnts = False)
     print(time.localtime())
